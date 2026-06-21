@@ -46,6 +46,9 @@ def urna():
              print("Entrada inválida. Digite um número ou.")
              continue
         
+        if voto == 0:
+            break
+        
         #Confirmação da escolha do eleitor
         if voto in candidatos:
                 print(f"Seu voto é para: {candidatos[voto]['nome']}")
@@ -66,19 +69,24 @@ def urna():
         else:
                 print("Código inválido. Tente novamente.")
 
-numeroEleitores = 10
-eleitores = 0
+totalVotos = 0
+
 print("\n"+"="*33)
 print("--- URNA ELETRONICA EM PYTHON ---")
 print("Desenvolvido por: Túlio S Marinho")
 print("="*33)
 
-print(f"\nlIniciando votação para {numeroEleitores} eleitores")
+while True:
+    entrada = input(
+        "\nDigite ENTER para votar ou 0 para encerrar a eleição: "
+    ).strip()
 
-while eleitores < numeroEleitores:
-     print(f"--- {eleitores + 1} de {numeroEleitores} ---")
-     votoRealizado = urna()
-     eleitores +=1
+    if entrada == "0":
+        break
+
+    urna()
+    totalVotos += 1
+
 
 print("\n" + "="*30)
 print("Resultado da Eleição:")
@@ -108,12 +116,13 @@ print("-" * 30)
 print("RESULTADO FINAL")
 print("-" * 30)
 
+#Verificicação do candidato vencedor
 if candidatoVencedor:
     if maiorVotos == 0:
         print("Nenhum voto foi registrado.")
     else:
         print(f"Candidato Vencedor: {candidatoVencedor}")
-        print(f"Total de votos: {maiorVotos}")
+        print(f"Total de votos: {totalVotos}")
         
         #Verificação de empates
         empatados = []
@@ -128,10 +137,10 @@ else:
 
 #Condicional para cálculo da porcentagem de votos brancos e nulos. Evitando divisão por zero
 if candidatos[5]["votos"] > 0 or candidatos[6]["votos"] > 0:
-    porcentagemNulos = candidatos[5]["votos"] / numeroEleitores * 100
-    porcentagemBrancos = candidatos[6]["votos"] / numeroEleitores * 100
-    print(f"A porcentagem de votos nulos foi de: {porcentagemNulos}%")
-    print(f"A porcentagem de votos em branco foi de: {porcentagemBrancos}%")
+    porcentagemNulos = candidatos[5]["votos"] / totalVotos * 100
+    porcentagemBrancos = candidatos[6]["votos"] / totalVotos * 100
+    print(f"A porcentagem de votos nulos foi de: {porcentagemNulos:.1f}%")
+    print(f"A porcentagem de votos em branco foi de: {porcentagemBrancos:.1f}%")
 
 else:
     print("A porcentagem de votos brancos e nulos foi de: 0%")
